@@ -8,35 +8,35 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-public class StockQuery extends JPanel implements ActionListener{
-	private Image backgroundImage = new ImageIcon("image/background.jpg").getImage();
+public class StockQuery extends JPanel implements ActionListener {
+    private Image backgroundImage = new ImageIcon("image/background.jpg").getImage();
     private JButton btnQuery = new JButton("查询");
-    private JTextField [] text = new JTextField[5];
-	private String [] cloNames ={"进货编号","供应商编号","商品编号","进货日期","数量"};
+    private JTextField[] text = new JTextField[5];
+    private String[] cloNames = {"进货编号", "供应商编号", "商品编号", "进货日期", "数量"};
     private CustomTableModel tableModel;
-	private JTable jtable;
+    private JTable jtable;
 
-	StockQuery() {
-        this.setSize(600,510);
-	    this.setLayout(null);
+    StockQuery() {
+        this.setSize(600, 510);
+        this.setLayout(null);
 
         JLabel jLabel = new JLabel("请任意输入一栏查询(可以输入多栏)：");
-        jLabel.setBounds(10,10,230,20);
-	    jLabel.setForeground(Color.red);
-	    this.add(jLabel);
+        jLabel.setBounds(10, 10, 230, 20);
+        jLabel.setForeground(Color.red);
+        this.add(jLabel);
 
         JLabel jLabel2 = new JLabel("进货信息查询得到的信息如下：");
-        jLabel2.setBounds(10,180,230,20);
-	    jLabel2.setForeground(Color.red);
-	    this.add(jLabel2);
-    		
+        jLabel2.setBounds(10, 180, 230, 20);
+        jLabel2.setForeground(Color.red);
+        this.add(jLabel2);
+
         //添加左边标签和文本框
         JLabel[] label = {new JLabel("进货编号:"), new JLabel("供应商编号:"),
                 new JLabel("商品编号:"), new JLabel("进货日期:"), new JLabel("数量:")};
         for (int i = 0; i < label.length; i++) {
             text[i] = new JTextField();
-            label[i].setBounds(10, 40+25*i, 90, 20);
-            text[i].setBounds(80, 40+25*i, 120, 20);
+            label[i].setBounds(10, 40 + 25 * i, 90, 20);
+            text[i].setBounds(80, 40 + 25 * i, 120, 20);
             label[i].setHorizontalAlignment(JLabel.LEFT);
 
             this.add(text[i]);
@@ -71,28 +71,28 @@ public class StockQuery extends JPanel implements ActionListener{
     }
 
     public void paintComponent(Graphics g) {
-	    super.paintComponent(g);
-	    g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-	}
+        super.paintComponent(g);
+        g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == btnQuery){
+        if (e.getSource() == btnQuery) {
             Query();
         }
     }
 
-    private void Query(){
+    private void Query() {
         String[] ss = new String[cloNames.length];
-        for(int i = 0; i < ss.length;i++){
+        for (int i = 0; i < ss.length; i++) {
             ss[i] = text[i].getText();
         }
-        for(int i = 0; i < ss.length;i++){
+        for (int i = 0; i < ss.length; i++) {
             ss[i] = "%" + ss[i] + "%";
         }
-        String sql ="SELECT * FROM tb_stock WHERE sto_id LIKE '"+ss[0]+"' " + "AND sup_id LIKE '"
-                +ss[1]+"' AND pro_id LIKE '"+ss[2]+"' AND date LIKE '"
-                +ss[3]+"' AND num LIKE '"+ss[4]+"'";
+        String sql = "SELECT * FROM tb_stock WHERE sto_id LIKE '" + ss[0] + "' " + "AND sup_id LIKE '"
+                + ss[1] + "' AND pro_id LIKE '" + ss[2] + "' AND date LIKE '"
+                + ss[3] + "' AND num LIKE '" + ss[4] + "'";
         QueryMethod.Query(sql, cloNames, jtable, tableModel);
     }
 }

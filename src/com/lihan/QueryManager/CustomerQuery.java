@@ -8,36 +8,36 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-public class CustomerQuery extends JPanel implements ActionListener{
+public class CustomerQuery extends JPanel implements ActionListener {
     private Image backgroundImage = new ImageIcon("image/background.jpg").getImage();
     private JButton btnQuery = new JButton("查询");
-    private JTextField [] text = new JTextField[4];
-    private String [] cloNames ={"客户编号","客户全称","联系电话","电子邮箱"};
+    private JTextField[] text = new JTextField[4];
+    private String[] cloNames = {"客户编号", "客户全称", "联系电话", "电子邮箱"};
 
     private CustomTableModel tableModel;
-    private JTable  jtable;
+    private JTable jtable;
 
     CustomerQuery() {
-        this.setSize(600,510);
+        this.setSize(600, 510);
         this.setLayout(null);
 
         JLabel jLabel = new JLabel("请任意输入一栏查询(可以输入多栏)：");
-        jLabel.setBounds(10,10,230,20);
+        jLabel.setBounds(10, 10, 230, 20);
         jLabel.setForeground(Color.red);
         this.add(jLabel);
 
         JLabel jLabel2 = new JLabel("客户信息查询得到的信息如下：");
-        jLabel2.setBounds(10,180,230,20);
+        jLabel2.setBounds(10, 180, 230, 20);
         jLabel2.setForeground(Color.red);
         this.add(jLabel2);
-    		
-    	//添加左边标签和文本框
+
+        //添加左边标签和文本框
         JLabel[] label = {new JLabel("客户编号:"), new JLabel("客户名称:"),
                 new JLabel("联系电话:"), new JLabel("电子邮箱:")};
         for (int i = 0; i < label.length; i++) {
             text[i] = new JTextField();
-            label[i].setBounds(10, 40+25*i, 90, 20);
-            text[i].setBounds(80, 40+25*i, 120, 20);
+            label[i].setBounds(10, 40 + 25 * i, 90, 20);
+            text[i].setBounds(80, 40 + 25 * i, 120, 20);
             label[i].setHorizontalAlignment(JLabel.LEFT);
 
             this.add(text[i]);
@@ -78,23 +78,23 @@ public class CustomerQuery extends JPanel implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == btnQuery){
+        if (e.getSource() == btnQuery) {
             Query();
         }
     }
 
-    private void Query(){
+    private void Query() {
         String[] ss = new String[4];
-        for(int i = 0; i < 4;i++){
+        for (int i = 0; i < 4; i++) {
             ss[i] = text[i].getText();
         }
-        for(int i = 0; i < 4;i++){
+        for (int i = 0; i < 4; i++) {
             ss[i] = ss[i].trim();
             ss[i] = "%" + ss[i] + "%";
         }
-        String sql ="SELECT * FROM tb_customer WHERE cus_id like '"+ss[0]+"' " + "AND cus_name LIKE '"
-                +ss[1]+"' AND (telephone LIKE '" +ss[2]+"' OR telephone  is null)" + "AND (email LIKE '"
-                +ss[3]+"' OR email is null)";
+        String sql = "SELECT * FROM tb_customer WHERE cus_id like '" + ss[0] + "' " + "AND cus_name LIKE '"
+                + ss[1] + "' AND (telephone LIKE '" + ss[2] + "' OR telephone  is null)" + "AND (email LIKE '"
+                + ss[3] + "' OR email is null)";
         QueryMethod.Query(sql, cloNames, jtable, tableModel);
     }
 }
